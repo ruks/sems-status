@@ -133,12 +133,12 @@ func main() {
         return
     }
 
-    // Parse for gridStatus and grid
+    // Parse for loadStatus and grid
     var pfResp struct {
         Data struct {
             Powerflow struct {
                 Grid       string `json:"grid"`
-                GridStatus int    `json:"gridStatus"`
+                LoadStatus int    `json:"loadStatus"`
             } `json:"powerflow"`
         } `json:"data"`
     }
@@ -147,13 +147,13 @@ func main() {
         return
     }
 
-    fmt.Println("gridStatus:", pfResp.Data.Powerflow.GridStatus)
-    fmt.Println("grid:", pfResp.Data.Powerflow.Grid)
+    fmt.Println("LoadStatus:", pfResp.Data.Powerflow.LoadStatus)
 	body := string(powerflowRespBody)
 	fmt.Println("Response:", body)
 
-    // Send email if gridStatus != 1
-    if pfResp.Data.Powerflow.GridStatus != 1 {
+    // Send email if LoadStatus != 1
+    if pfResp.Data.Powerflow.LoadStatus != 1 {
+		fmt.Println("LoadStatus is not 1, sending alert email...")
         smtpHost := os.Getenv("SMTP_HOST")
         smtpPort := os.Getenv("SMTP_PORT")
         smtpUser := os.Getenv("SMTP_USER")
@@ -165,7 +165,7 @@ func main() {
             return
         }
 
-        subject := "SEMS Alert: gridStatus is not 1"
+        subject := "SEMS Alert: LoadStatus is not 1"
         
         msg := "From: " + mailFrom + "\r\n" +
             "To: " + mailTo + "\r\n" +
