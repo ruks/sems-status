@@ -149,6 +149,8 @@ func main() {
 
     fmt.Println("gridStatus:", pfResp.Data.Powerflow.GridStatus)
     fmt.Println("grid:", pfResp.Data.Powerflow.Grid)
+	body := string(powerflowRespBody)
+	fmt.Println("Response:", body)
 
     // Send email if gridStatus != 1
     if pfResp.Data.Powerflow.GridStatus != 1 {
@@ -164,7 +166,7 @@ func main() {
         }
 
         subject := "SEMS Alert: gridStatus is not 1"
-        body := string(powerflowRespBody)
+        
         msg := "From: " + mailFrom + "\r\n" +
             "To: " + mailTo + "\r\n" +
             "Subject: " + subject + "\r\n" +
